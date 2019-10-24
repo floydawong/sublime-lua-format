@@ -5,6 +5,12 @@ import subprocess
 
 class LuaFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit, error=True, save=True):
+        # check whether the lua files
+        suffix_setting = self.view.settings().get("syntax")
+        file_suffix = suffix_setting.split(".")[0]
+        if file_suffix[-3:].lower() != "lua":
+            return
+
         self.filename = self.view.file_name()
         package_path = os.path.split(os.path.dirname(__file__))[1]
         command = os.path.join(

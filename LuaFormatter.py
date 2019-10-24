@@ -17,9 +17,5 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
             sublime.packages_path(), package_path, "bin", sys.platform, "lua-format"
         )
 
-        settings = sublime.load_settings("LuaFormatter.sublime-settings")
-        config = settings.get("config_file")
-        if config:
-            process = subprocess.Popen([command, self.filename, "-c", config])
-        else:
-            process = subprocess.Popen([command, self.filename])
+        lua_style = os.path.join(os.path.dirname(__file__), "lua_style")
+        process = subprocess.Popen([command, self.filename, "-c", lua_style])

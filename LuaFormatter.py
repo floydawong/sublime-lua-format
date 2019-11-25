@@ -1,14 +1,22 @@
 import os
 import sublime, sublime_plugin, sys
 import subprocess
+import shutil
+
+
+LUA_STYLE_NAME = "lua_style"
+
 
 def plugin_loaded():
     init_config_file()
 
+
 def init_config_file():
-    config_path = os.path.join(sublime.packages_path(), "User", 'lua_style')
-
-
+    package_path = os.path.dirname(os.path.realpath(__file__))
+    config_src_path = os.path.join(package_path, LUA_STYLE_NAME)
+    config_dst_path = os.path.join(sublime.packages_path(), "User", LUA_STYLE_NAME)
+    if not os.path.exists(config_dst_path):
+        shutil.copyfile(config_src_path, config_dst_path)
 
 
 class LuaFormatCommand(sublime_plugin.TextCommand):
@@ -30,5 +38,5 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
             sublime.packages_path(), package_path, "bin", sys.platform, "lua-format"
         )
 
-        lua_style = os.path.join(os.path.dirname(__file__), "lua_style")
-        process = subprocess.Popen([executable_path, filename, "-c", lua_style])
+        config_path = os.path.join(sublime.packages_path(), "User", LUA_STYLE_NAME)
+        process = subprocess.Popen([executable_path, filename, "-c", config_path])

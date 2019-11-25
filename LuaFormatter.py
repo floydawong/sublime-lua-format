@@ -2,6 +2,14 @@ import os
 import sublime, sublime_plugin, sys
 import subprocess
 
+def plugin_loaded():
+    init_config_file()
+
+def init_config_file():
+    config_path = os.path.join(sublime.packages_path(), "User", 'lua_style')
+
+
+
 
 class LuaFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit, error=True, save=True):
@@ -18,9 +26,9 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
 
         # run lua-format
         package_path = os.path.split(os.path.dirname(__file__))[1]
-        command = os.path.join(
+        executable_path = os.path.join(
             sublime.packages_path(), package_path, "bin", sys.platform, "lua-format"
         )
 
         lua_style = os.path.join(os.path.dirname(__file__), "lua_style")
-        process = subprocess.Popen([command, filename, "-c", lua_style])
+        process = subprocess.Popen([executable_path, filename, "-c", lua_style])

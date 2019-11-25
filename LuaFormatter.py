@@ -40,3 +40,10 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
 
         config_path = os.path.join(sublime.packages_path(), "User", LUA_STYLE_NAME)
         process = subprocess.Popen([executable_path, filename, "-c", config_path])
+
+
+class LuaFormatOnPreSave(sublime_plugin.EventListener):
+    def on_pre_save(self, view):
+        s = sublime.load_settings("LuaFormatter.sublime-settings")
+        if s.get("auto_format_on_save", False):
+            view.run_command("lua_format")

@@ -4,7 +4,7 @@ import subprocess
 import shutil
 
 
-LUA_STYLE_NAME = "lua_style"
+LUA_STYLE_NAME = "lua_style.lua-format"
 
 
 def plugin_loaded():

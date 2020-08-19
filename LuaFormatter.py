@@ -39,7 +39,13 @@ class LuaFormatCommand(sublime_plugin.TextCommand):
         )
 
         config_path = os.path.join(sublime.packages_path(), "User", LUA_STYLE_NAME)
-        process = subprocess.Popen([executable_path, filename, "-c", config_path])
+
+        st = subprocess.STARTUPINFO
+        st.dwFlags = subprocess.STARTF_USESHOWWINDOW
+        st.wShowWindow = subprocess.SW_HIDE
+        process = subprocess.Popen(
+            [executable_path, filename, "-c", config_path], startupinfo=st
+        )
 
 
 class LuaFormatOnPreSave(sublime_plugin.EventListener):
